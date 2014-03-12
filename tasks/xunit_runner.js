@@ -72,7 +72,9 @@ module.exports = function (grunt) {
             var text = testResult.total + ' total, ' + testResult.failed + ' failed , ' + testResult.skipped + ' skipped , ' + 'took ' + testResult.time + ' seconds';
             text = testResult.failed > 0 ? text.magenta : text.green;
             grunt.log.writeln(text);
-
+            if(testResult.failed>0){
+                grunt.fail.fatal(testResult.failed +" tests failed");
+            }
         });
     });
 
