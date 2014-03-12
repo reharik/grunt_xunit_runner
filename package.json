@@ -1,7 +1,7 @@
 {
   "name": "grunt-xunit-runner",
   "description": "Grunt task for running multiple xunit dlls with all the options that xunit console provides",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "homepage": "https://github.com/reharik/grunt_xunit_runner",
   "author": {
     "name": "Raif Harik",

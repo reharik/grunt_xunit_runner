@@ -32,20 +32,20 @@ module.exports = function(grunt) {
     xunit_runner: {
       default_options: {
         options: {
+            xUnit : "xunit.console.clr4.exe"
         },
         files: {
-          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
+          'tmp/default_options': ['test/fixtures/testing', 'test/fixtures/123']
+        }
       },
       custom_options: {
         options: {
-          separator: ': ',
-          punctuation: ' !!!',
+            xUnit : "xunit.console.clr4.exe"
         },
         files: {
-          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123'],
-        },
-      },
+          'tmp/custom_options': ['test/fixtures/testing', 'test/fixtures/123']
+        }
+      }
     },
 
     // Unit tests.
