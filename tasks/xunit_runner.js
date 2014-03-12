@@ -31,6 +31,7 @@ module.exports = function (grunt) {
         var options = this.options({
             stdout: true,
             stderr: true,
+            workingDir:'',
             xUnit: "xunit.console.exe",
             silent:'true',
             teamcity:'false',
@@ -45,23 +46,16 @@ module.exports = function (grunt) {
         grunt.verbose.writeln('Using Options: ' + JSON.stringify(options, null, 4).cyan);
 
         this.files.forEach(function (f) {
-            var src = f.src.filter(function (filepath) {
-                if (!grunt.file.exists(filepath)) {
-                    grunt.log.warn('Source file "' + filepath + '" not found.');
-                    return false;
-                } else {
-                    return true;
-                }
-            }).map(function (filepath) {
-                    // add all the individual xunit calls to an array which will be called synchronously below
-                    assemblies.push(function (cb) {
-                        build(filepath, options, cb, output);
-                    });
-                    // final call to end synchronous calls
-                    assemblies.push(function (cb) {
-                        cb();
-                    });
+            var src = f.src.map(function (filepath) {
+                // add all the individual xunit calls to an array which will be called synchronously below
+                assemblies.push(function (cb) {
+                    build(filepath, options, cb, output);
                 });
+                // final call to end synchronous calls
+                assemblies.push(function (cb) {
+                    cb();
+                });
+            });
         });
 
         // calls all the assemblies synchonously then expresses the output
@@ -87,7 +81,7 @@ module.exports = function (grunt) {
         var cmd = buildCmdLine(src, options);
         grunt.verbose.writeln('Using Command:' + cmd.cyan);
 
-        var cp = exec(cmd, {}, function (err, stdout, stderr) {
+        var cp = exec(cmd, {cwd:options.workingDir}, function (err, stdout, stderr) {
             cb();
         });
         cp.stdout.on('data', function (chunk) {

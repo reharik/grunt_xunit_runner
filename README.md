@@ -26,9 +26,11 @@ In your project's Gruntfile, add a section named `xunit_runner` to the data obje
 grunt.initConfig({
   xunit_runner: {
     options: {
-      // this is what I use.  but there seem  to be a couple of runners in the xunit bin
-      // also I believe you need to have xunit in your path which is a bit annoying, perhaps I'll
-      // look for a work around if anyone cares.
+      // this is the exe that I use.  but there seem  to be a couple of runners in the xunit bin
+      // your options here are to either have xunit in your path or provide a
+      // workingDir for xunit.
+      // WARNING
+      // IF you provide the workingDir you MUST make your path/to/my/test_dll.Test1.dll RELATIVE to the working dir!
       xUnit : "xunit.console.clr4.exe"
     },
     files:{
@@ -46,6 +48,7 @@ grunt.initConfig({
 ### Options
     stdout: true,
     stderr: true,
+    workingDir:'',
     xUnit: "xunit.console.exe",
     silent:'true',
     teamcity:'false',
@@ -56,7 +59,8 @@ grunt.initConfig({
     html:'',
     nunit:''
 
-// the options starting with silent should follow the following format
+// the options should follow the following format
+// workingDir:'../../where_my_xUnit_exe_is'  // relative to current dir
 // silent: 'true'
 // teamcity: 'false'
 // trait: 'mytrait=myvalue'
