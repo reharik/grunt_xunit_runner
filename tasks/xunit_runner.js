@@ -16,7 +16,7 @@ module.exports = function (grunt) {
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
 
-    grunt.registerMultiTask('xunit', 'Grunt task for running multiple xunit dlls with all the options that xunit console provides', function () {
+    grunt.registerMultiTask('xunit-runner', 'Grunt task for running multiple xunit dlls with all the options that xunit console provides', function () {
 
         var asyncCallback = this.async();
         var output = [];
