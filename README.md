@@ -79,3 +79,6 @@ Please feel free to inform me of these as I am kind of new to some of this stuff
 
 ## Release History
 0.1.4 made task fail if any tests fail. (duh)
+
+0.1.5 moved async from devDependencies to dependencies courtesy of jgillich
+made path to xunit fully resolve

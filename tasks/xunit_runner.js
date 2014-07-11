@@ -13,6 +13,7 @@ module.exports = function (grunt) {
     var exec = require('child_process').exec;
     var util = require('util');
     var async = require('async');
+    var path = require("path");
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
 
@@ -128,7 +129,7 @@ module.exports = function (grunt) {
         arg += options.html.length>0 ? '/html '+ options.html : '';
         arg += options.nunit.length>0 ? '/nunit '+ options.nunit : '';
 
-        return util.format("%s %s ", options.xUnit, src, arg);
+        return util.format("%s %s ", path.Resolve(options.xUnit), src, arg);
     }
 };
 
