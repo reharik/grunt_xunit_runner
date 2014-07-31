@@ -82,3 +82,5 @@ Please feel free to inform me of these as I am kind of new to some of this stuff
 
 0.1.5 moved async from devDependencies to dependencies courtesy of jgillich
 made path to xunit fully resolve
+
+0.1.6 Ok this time the path to xunit should actually resolve. I screwed it up last time and I apologize.

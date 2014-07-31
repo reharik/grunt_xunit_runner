@@ -12,8 +12,8 @@
 module.exports = function (grunt) {
     var exec = require('child_process').exec;
     var util = require('util');
-    var async = require('async');
     var path = require("path");
+    var async = require('async');
     // Please see the Grunt documentation for more information regarding task
     // creation: http://gruntjs.com/creating-tasks
 
@@ -84,7 +84,7 @@ module.exports = function (grunt) {
         var cmd = buildCmdLine(src, options);
         grunt.verbose.writeln('Using Command:' + cmd.cyan);
 
-        var cp = exec(cmd, {cwd:options.workingDir}, function (err, stdout, stderr) {
+        var cp = exec(cmd, {cwd:path.resolve(options.workingDir)}, function (err, stdout, stderr) {
             cb();
         });
         cp.stdout.on('data', function (chunk) {
@@ -105,7 +105,7 @@ module.exports = function (grunt) {
 
     function processFinalLine(data, output) {
         var lastChunk = data.pop();
-        var lastLineArray = lastChunk.match(/^[0-9]*\stotal.*$/m)||'';
+        var lastLineArray = lastChunk ?lastChunk.match(/^[0-9]*\stotal.*$/m)||'':'';
 
         var line = lastLineArray[0];
         if(line && line.length>0){
@@ -129,7 +129,7 @@ module.exports = function (grunt) {
         arg += options.html.length>0 ? '/html '+ options.html : '';
         arg += options.nunit.length>0 ? '/nunit '+ options.nunit : '';
 
-        return util.format("%s %s ", path.Resolve(options.xUnit), src, arg);
+        return util.format("%s %s ", options.xUnit, src, arg);
     }
 };
 
