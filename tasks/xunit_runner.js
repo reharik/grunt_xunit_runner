@@ -46,18 +46,19 @@ module.exports = function (grunt) {
 
         grunt.verbose.writeln('Using Options: ' + JSON.stringify(options, null, 4).cyan);
 
-        this.files.forEach(function (f) {
-            var src = f.src.map(function (filepath) {
-                // add all the individual xunit calls to an array which will be called synchronously below
-                assemblies.push(function (cb) {
-                    build(filepath, options, cb, output);
-                });
-                // final call to end synchronous calls
-                assemblies.push(function (cb) {
-                    cb();
-                });
-            });
+        assemblies = this.data.TestAndConfig.map(function(dll){
+            return function(cb){
+                build(path.resolve(dll.file),path.resolve(dll.config),options,output, cb);
+            }
         });
+
+        assemblies = assemblies.concat(this.filesSrc.map(function(file){
+            return function(cb){
+                build(file,'',options,output, cb);
+            }
+        }));
+
+        assemblies.push(function (cb) { cb(); });
 
         // calls all the assemblies synchonously then expresses the output
         async.series(assemblies, function (err, callback) {
@@ -79,20 +80,19 @@ module.exports = function (grunt) {
         });
     });
 
-    function build(src, options, cb, output) {
+    function build(src, config, options, output, cb) {
         var  data =[];
-        var cmd = buildCmdLine(src, options);
+        var cmd = buildCmdLine(src, config, options);
         grunt.verbose.writeln('Using Command:' + cmd.cyan);
 
-        var cp = exec(cmd, {cwd:path.resolve(options.workingDir)}, function (err, stdout, stderr) {
-            cb();
-        });
+        var cp = exec(cmd, {cwd:path.resolve(options.workingDir)}, function (err, stdout, stderr) {});
         cp.stdout.on('data', function (chunk) {
             data.push(chunk);
         });
         cp.stdout.on('end',function(){
             processFinalLine(data, output);
             grunt.log.writeln(src.cyan);
+            cb();
         });
 
         if (options.stdout || grunt.option('verbose')) {
@@ -119,8 +119,9 @@ module.exports = function (grunt) {
         }
     }
 
-    function buildCmdLine(src, options) {
-        var arg = options.silent==='true' ? '/silent  ': '';
+    function buildCmdLine(src, config, options) {
+        var arg = config  ?config+' ':'';
+        arg += options.silent==='true' ? '/silent  ': '';
         arg += options.teamcity==='true' ? '/teamcity ' : '';
         arg += options.trait.length>0 ? '/trait "' + options.trait+'"' : '';
         arg += options.notrait.length>0 ? '/notrait "' + options.notrait +'"': '';

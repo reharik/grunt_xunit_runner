@@ -33,6 +33,7 @@ grunt.initConfig({
       // IF you provide the workingDir you MUST make your path/to/my/test_dll.Test1.dll RELATIVE to the working dir!
       xUnit : "xunit.console.clr4.exe"
     },
+    // two forms use either or
     files:{
         dlls: [
             'path/to/my/test_dll.Tests1.dll ',
@@ -41,6 +42,11 @@ grunt.initConfig({
             'path/to/my/test_dll.Tests1.dll '
         ]
     }
+    TestAndConfig:[
+        {
+            file:'path/to/my/test_dll.Tests1.dll ',
+            config:'path/to/my/test_dll.Tests1.dll.config'
+        }
   }
 });
 ```
@@ -84,3 +90,6 @@ Please feel free to inform me of these as I am kind of new to some of this stuff
 made path to xunit fully resolve
 
 0.1.6 Ok this time the path to xunit should actually resolve. I screwed it up last time and I apologize.
+
+1.7 cleaned up implementation a little bit logging is still probably terrible.
+added ability to list file and config incase your dll needs a config file
