@@ -93,3 +93,5 @@ made path to xunit fully resolve
 
 1.7 cleaned up implementation a little bit logging is still probably terrible.
 added ability to list file and config incase your dll needs a config file
+
+1.8 fixed bug when not using config
