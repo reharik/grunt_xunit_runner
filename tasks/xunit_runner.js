@@ -46,11 +46,13 @@ module.exports = function (grunt) {
 
         grunt.verbose.writeln('Using Options: ' + JSON.stringify(options, null, 4).cyan);
 
-        assemblies = this.data.TestAndConfig.map(function(dll){
-            return function(cb){
-                build(path.resolve(dll.file),path.resolve(dll.config),options,output, cb);
-            }
-        });
+        if(this.data && this.data.TestAndConfig) {
+            assemblies = this.data.TestAndConfig.map(function (dll) {
+                return function (cb) {
+                    build(path.resolve(dll.file), path.resolve(dll.config), options, output, cb);
+                }
+            });
+        }
 
         assemblies = assemblies.concat(this.filesSrc.map(function(file){
             return function(cb){
